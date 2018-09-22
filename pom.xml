@@ -24,6 +24,15 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
+		<sonar.sources>src/main</sonar.sources>
+		<sonar.tests>src/test</sonar.tests>
+		<!-- Below property indicates the pattern of the test suite -->
+		<runSuite>**/*Suite.class</runSuite>
+		<!-- Sonar-JaCoCo properties -->
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		<sonar.jacoco.reportPath>${project.basedir}/../target/jacoco.exec</sonar.jacoco.reportPath>
+		<sonar.language>java</sonar.language>
 	</properties>
 
 	<dependencies>
@@ -45,6 +54,56 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			<plugin>
+    				<groupId>org.apache.maven.plugins</groupId>
+    				<artifactId>maven-compiler-plugin</artifactId>
+    				<version>2.5.1</version>
+    				<configuration>
+        			<source>1.8</source>
+        			<target>1.8</target>
+        			<debug>true</debug>
+        			<debuglevel>lines,vars,source</debuglevel>
+    				</configuration>
+  			</plugin>
+			<plugin>
+                		<groupId>org.sonarsource.scanner.maven</groupId>
+                		<artifactId>sonar-maven-plugin</artifactId>
+                		<version>3.4.0.905</version>
+            		</plugin>
+				<!-- Below plugin ensures the execution of test cases during maven build-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+				<includes>
+				<include>${runSuite}</include>
+				</includes>
+				</configuration>
+			</plugin>
+			<!-- Sonar-JaCoCo integration plugin -->
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.7.6.201602180812</version>
+				<configuration>
+				<destFile>${sonar.jacoco.reportPath}</destFile>
+				<append>true</append>
+				</configuration>
+				<Executions>
+        				<Execution>
+          					<Goals>
+            					<Goal>prepare-agent </goal>
+          					</Goals>
+        				</Execution>
+       					 <Execution>
+          				<Id>Post-unit-test</id>
+         				 <Phase>test</Phase>
+          					<Goals>
+            				<Goal>report</goal>
+          				</Goals>
+        				</Execution>
+      					</Executions>
+    			</Plugin>
 		</plugins>
 	</build>
 <distributionManagement>
