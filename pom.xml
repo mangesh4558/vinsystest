@@ -92,7 +92,7 @@
 				<Executions>
         				<Execution>
           					<Goals>
-            					<Goal>prepare-agent </goal>
+            					<Goal>prepare-agent</goal>
           					</Goals>
         				</Execution>
        					 <Execution>
