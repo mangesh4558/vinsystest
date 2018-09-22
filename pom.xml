@@ -79,30 +79,6 @@
 				<include>${runSuite}</include>
 				</includes>
 				</configuration>
-			</plugin>
-			<!-- Sonar-JaCoCo integration plugin -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.6.201602180812</version>
-				<configuration>
-				<destFile>${sonar.jacoco.reportPath}</destFile>
-				<append>true</append>
-				</configuration>
-				<Executions>
-        				<Execution>
-          					<Goals>
-            					<Goal>prepare-agent</goal>
-          					</Goals>
-        				</Execution>
-       					 <Execution>
-          				<Id>Post-unit-test</id>
-         				 <Phase>test</Phase>
-          					<Goals>
-            				<Goal>report</goal>
-          				</Goals>
-        				</Execution>
-      					</Executions>
     			</Plugin>
 		</plugins>
 	</build>
